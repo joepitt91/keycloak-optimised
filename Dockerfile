@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2025 Joe Pitt
+# SPDX-FileCopyrightText: 2025-2026 Joe Pitt
 #
 # SPDX-License-Identifier: GPL-3.0-only
 ARG KEYCLOAK_VERSION=latest
 
-FROM docker.io/redhat/ubi9:latest AS curl
+FROM redhat/ubi9:latest AS curl
 RUN mkdir -p /mnt/rootfs
 RUN dnf install --installroot /mnt/rootfs curl --releasever 9 --setopt install_weak_deps=false \
         --nodocs -y && \
@@ -11,7 +11,7 @@ RUN dnf install --installroot /mnt/rootfs curl --releasever 9 --setopt install_w
     rpm --root /mnt/rootfs -e --nodeps setup
 
 
-FROM docker.io/keycloak/keycloak:${KEYCLOAK_VERSION} AS build
+FROM keycloak/keycloak:${KEYCLOAK_VERSION} AS build
 ENV KC_DB=postgres \
     KC_FEATURES=persistent-user-sessions,recovery-codes \
     KC_HEALTH_ENABLED=true \
@@ -20,7 +20,7 @@ ENV KC_DB=postgres \
 WORKDIR /opt/keycloak
 RUN /opt/keycloak/bin/kc.sh build
 
-FROM docker.io/keycloak/keycloak:${KEYCLOAK_VERSION} AS final
+FROM keycloak/keycloak:${KEYCLOAK_VERSION} AS final
 COPY --from=curl /mnt/rootfs /
 COPY --from=build /opt/keycloak/ /opt/keycloak/
 ENV KC_DB=postgres \

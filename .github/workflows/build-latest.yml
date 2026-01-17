@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Joe Pitt
+# SPDX-FileCopyrightText: 2025-2026 Joe Pitt
 #
 # SPDX-License-Identifier: GPL-3.0-only
 
@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Get Latest Keycloak Version
         id: version
-        uses: joepitt91/action-version-from-dockerhub@v1
+        uses: joepitt91/action-version-from-dockerhub@v2
         with:
           dockerhub_username: ${{ secrets.DOCKER_USER }}
           dockerhub_token: ${{ secrets.DOCKER_PASSWORD }}

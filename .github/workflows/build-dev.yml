@@ -49,7 +49,7 @@ jobs:
         run: echo "Building optimised image of Keycloak ${{ needs.keycloak.outputs.version }} from image with digest ${{ needs.keycloak.outputs.digest }}"
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
